@@ -558,6 +558,7 @@ typedef enum {
     ESP_GAP_SEARCH_DISC_CMPL_EVT           = 4,      /*!< Discovery complete. */
     ESP_GAP_SEARCH_DI_DISC_CMPL_EVT        = 5,      /*!< Discovery complete. */
     ESP_GAP_SEARCH_SEARCH_CANCEL_CMPL_EVT  = 6,      /*!< Search cancelled */
+    ESP_GAP_SEARCH_INQ_DISCARD_NUM_EVT     = 7,      /*!< The number of pkt discarded by flow control */
 } esp_gap_search_evt_t;
 
 /**
@@ -635,6 +636,7 @@ typedef union {
         int num_resps;                              /*!< Scan result number */
         uint8_t adv_data_len;                       /*!< Adv data length */
         uint8_t scan_rsp_len;                       /*!< Scan response length */
+        uint32_t num_dis;                          /*!< The number of discard packets */
     } scan_rst;                                     /*!< Event parameter of ESP_GAP_BLE_SCAN_RESULT_EVT */
     /**
      * @brief ESP_GAP_BLE_ADV_DATA_RAW_SET_COMPLETE_EVT
@@ -930,12 +932,13 @@ esp_err_t esp_ble_gap_config_local_icon (uint16_t icon);
 *
 * @param[in]        add_remove: the value is true if added the ble device to the white list, and false remove to the white list.
 * @param[in]        remote_bda: the remote device address add/remove from the white list.
+* @param[in]        wl_addr_type: whitelist address type
 * @return
 *                     - ESP_OK : success
 *                     - other  : failed
 *
 */
-esp_err_t esp_ble_gap_update_whitelist(bool add_remove, esp_bd_addr_t remote_bda);
+esp_err_t esp_ble_gap_update_whitelist(bool add_remove, esp_bd_addr_t remote_bda, esp_ble_wl_addr_type_t wl_addr_type);
 
 /**
 * @brief            Get the whitelist size in the controller
